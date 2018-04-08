@@ -1,0 +1,160 @@
+<html>
+    <head>
+        <title>NHL Last Day Updates</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        <script type="text/javascript">
+            var scoreDucksCoyotes = {
+                ANA:0,
+                ARI:0
+            };
+            var scoreKingsStars = {
+                LAK:0,
+                DAL:0
+            };
+            var scoreSharksWild = {
+                SJS:0,
+                MIN:0
+            };
+
+            
+
+            $(document).ready(function(){
+
+                var requests = function(){
+                    $.get('https://statsapi.web.nhl.com/api/v1/schedule?startDate=2018-04-07&endDate=2018-04-07&teamId=24', function(data){
+                        if (data.hasOwnProperty('copyright')){
+                            var teams = data.dates[0].games[0].teams;
+                            // var teams = {away:{score:1}, home:{score:3}};
+                            // console.log(teams);
+                            if (teams.away.score != scoreDucksCoyotes.ANA){
+                                scoreDucksCoyotes.ANA = teams.away.score;
+                                $('#player')[0].play();
+                                $('#DucksScore').text(teams.away.score);
+                            }
+                            if (teams.home.score != scoreDucksCoyotes.ARI){
+                                scoreDucksCoyotes.ARI = teams.home.score;
+                                $('#player')[0].play();
+                                $('#CoyotesScore').text(teams.home.score);
+                            }
+                        }
+                    });
+                    $.get('https://statsapi.web.nhl.com/api/v1/schedule?startDate=2018-04-07&endDate=2018-04-07&teamId=26', function(data){
+                        if (data.hasOwnProperty('copyright')){
+                            var teams = data.dates[0].games[0].teams;
+                            // var teams = {away:{score:1}, home:{score:3}};
+                            // console.log(teams);
+                            if (teams.away.score != scoreKingsStars.DAL){
+                                scoreKingsStars.DAL = teams.away.score;
+                                $('#player')[0].play();
+                                $('#StarsScore').text(teams.away.score);
+                            }
+                            if (teams.home.score != scoreKingsStars.LAK){
+                                scoreKingsStars.LAK = teams.home.score;
+                                $('#player')[0].play();
+                                $('#KingsScore').text(teams.home.score);
+                            }
+                        }
+                    });
+                    $.get('https://statsapi.web.nhl.com/api/v1/schedule?startDate=2018-04-07&endDate=2018-04-07&teamId=28', function(data){
+                        if (data.hasOwnProperty('copyright')){
+                            var teams = data.dates[0].games[0].teams;
+                            // console.log(teams);
+                            if (teams.away.score != scoreSharksWild.MIN){
+                                scoreSharksWild.MIN = teams.away.score;
+                                $('#player')[0].play();
+                                $('#WildScore').text(teams.away.score);
+                            }
+                            if (teams.home.score != scoreSharksWild.SJS){
+                                scoreSharksWild.SJS = teams.home.score;
+                                $('#player')[0].play();
+                                $('#SharksScore').text(teams.home.score);
+                            }
+                        }
+                    });
+                }
+
+                requests();
+
+                setInterval(function(){
+
+                    requests();
+
+                }, 10000);
+
+            });
+
+
+
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>NHL Last Matches</h1>
+            <hr/>
+            <div id="DucksCoyotes" style="border-bottom:1px black solid;">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3 style="color:darkorange;">Anaheim Ducks</h3>
+                    </div>
+                    <div class="col-sm-4"style="text-align:right;">
+                        <h3 id="DucksScore">0</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3 style="color:darkred;">Arizona Coyotes</h3>
+                    </div>
+                    <div class="col-sm-4" style="text-align:right;">
+                        <h3 id="CoyotesScore">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div id="KingsStars" style="border-bottom:1px black solid;">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3>LA Kings</h3>
+                    </div>
+                    <div class="col-sm-4"style="text-align:right;">
+                        <h3 id="KingsScore">0</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3 style="color:green;">Dallas Stars</h3>
+                    </div>
+                    <div class="col-sm-4" style="text-align:right;">
+                        <h3 id="StarsScore">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div id="SharksWild" style="border-bottom:1px black solid;">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3 style="color:teal;">San José Sharks</h3>
+                    </div>
+                    <div class="col-sm-4"style="text-align:right;">
+                        <h3 id="SharksScore">0</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3 style="color:green;">Minnesota Wild</h3>
+                    </div>
+                    <div class="col-sm-4" style="text-align:right;">
+                        <h3 id="WildScore">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <audio id="player">
+            <source src="sound.mp3" type="audio/mpeg"/>
+        </audio>
+
+    </body>
+</html>
